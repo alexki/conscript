@@ -17,7 +17,7 @@ module Conscript
       end
 
       self.conscript_options.slice(:associations, :ignore_attributes).each_pair {|key, value| self.conscript_options[key] = Array(value) | Array(options[key]) }
-      self.conscript_options[:associations].map!(&:to_sym)
+      self.conscript_options[:associations]
       self.conscript_options[:ignore_attributes].map!(&:to_s)
       self.conscript_options.update options.slice(:allow_update_with_drafts, :destroy_drafts_on_publish)
 
@@ -64,7 +64,7 @@ module Conscript
           run_callbacks :publish_draft do
             raise Conscript::Exception::NotADraft unless is_draft?
             if !draft_parent_id
-              self.update_attribute(:is_draft, false) 
+              self.update_attribute(:is_draft, false)
               return self
             end
             parent = self.draft_parent
